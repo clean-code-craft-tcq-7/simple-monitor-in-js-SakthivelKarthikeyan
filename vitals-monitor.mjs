@@ -17,23 +17,23 @@ async function displayVitalAlert(message) {
 function isTemperatureOk(temperature) {
   if (temperature > 102 || temperature < 95) {
     displayVitalAlert("Temperature is critical!");
-    return 0;
+    return false;
   }
-  return 1;
+  return true;
 }
 
 function isPulseRateOk(pulseRate) {
   if (pulseRate < 60 || pulseRate > 100) {
     displayVitalAlert("Pulse Rate is critical!");
-    return 0;
+    return false;
   }
-  return 1;
+  return true;
 }
 
 function isSpo2Ok(spo2) {
   if (spo2 < 90) {
     displayVitalAlert("Oxygen Saturation is critical!");
-    return 0;
+    return false;
   }
-  return 1;
+  return true;
 }
