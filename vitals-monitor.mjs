@@ -1,31 +1,38 @@
-
 export async function vitalsOk(temperature, pulseRate, spo2) {
+  return (
+    isTemperatureOk(temperature) && isPulseRateOk(pulseRate) && isSpo2Ok(spo2)
+  );
+}
+
+async function displayVitalAlert(message) {
+  console.log(message);
+  for (let i = 0; i < 6; i++) {
+    process.stdout.write("\r* ");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    process.stdout.write("\r *");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
+}
+
+function isTemperatureOk(temperature) {
   if (temperature > 102 || temperature < 95) {
-    console.log("Temperature is critical!");
-    for (let i = 0; i < 6; i++) {
-      process.stdout.write("\r* ");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      process.stdout.write("\r *");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
+    displayVitalAlert("Temperature is critical!");
     return false;
-  } else if (pulseRate < 60 || pulseRate > 100) {
-    console.log("Pulse Rate is out of range!");
-    for (let i = 0; i < 6; i++) {
-      process.stdout.write("\r* ");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      process.stdout.write("\r *");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
+  }
+  return true;
+}
+
+function isPulseRateOk(pulseRate) {
+  if (pulseRate < 60 || pulseRate > 100) {
+    displayVitalAlert("Pulse Rate is critical!");
     return false;
-  } else if (spo2 < 90) {
-    console.log("Oxygen Saturation out of range!");
-    for (let i = 0; i < 6; i++) {
-      process.stdout.write("\r* ");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      process.stdout.write("\r *");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
+  }
+  return true;
+}
+
+function isSpo2Ok(spo2) {
+  if (spo2 < 90) {
+    displayVitalAlert("Oxygen Saturation is critical!");
     return false;
   }
   return true;
